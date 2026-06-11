@@ -2,9 +2,9 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PostCard from "@/components/PostCard";
-import AdSlot from "@/components/AdSlot";
+import Sidebar from "@/components/Sidebar";
 import { getLatestPosts, getNavCategories, getPostsByCategory } from "@/lib/wp";
-import { CATEGORIES, SITE } from "@/lib/types";
+import { SITE } from "@/lib/types";
 import type { Metadata } from "next";
 
 // Revalidate every 60s — fast pages, fresh-ish content.
@@ -34,6 +34,9 @@ export default async function HomePage() {
   const subFeatured = rest.slice(0, 4);
   const moreLatest = rest.slice(4, 10);
 
+  // Sidebar uses the rest of the latest posts (after hero + sub-featured + moreLatest).
+  const sidebarLatest = rest.slice(10, 16).length > 0 ? rest.slice(10, 16) : rest;
+
   return (
     <>
       <Header categories={navCategories} />
@@ -43,21 +46,14 @@ export default async function HomePage() {
         <h1 className="sr-only">
           {SITE.name} — ताज़ा खबरें, ब्रेकिंग न्यूज़ हिंदी में
         </h1>
-        {/* Top banner ad slot */}
-        <AdSlot
-          slot="homepage-top-banner"
-          format="horizontal"
-          height={90}
-          className="mb-6"
-        />
 
-        {/* Hero + sub-featured */}
+        {/* Hero + sub-featured — sub-featured now in 2x2 grid that fills the right column. */}
         {hero && (
-          <section className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          <section className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 mb-8">
             <div className="lg:col-span-2">
               <PostCard post={hero} size="hero" showExcerpt priority />
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-2 gap-3 md:gap-4">
               {subFeatured.map((p) => (
                 <PostCard key={p.id} post={p} size="small" />
               ))}
@@ -65,18 +61,10 @@ export default async function HomePage() {
           </section>
         )}
 
-        {/* Inline ad */}
-        <AdSlot
-          slot="homepage-mid"
-          format="horizontal"
-          height={90}
-          className="my-8"
-        />
-
-        {/* Latest grid */}
+        {/* ताज़ा खबरें — denser 4-col grid */}
         {moreLatest.length > 0 && (
           <section className="mb-10">
-            <h2 className="text-2xl font-bold text-zinc-900 border-l-4 border-red-600 pl-3 mb-5">
+            <h2 className="text-2xl font-bold border-l-4 border-[var(--brand)] pl-3 mb-5 text-[var(--foreground)]">
               ताज़ा खबरें
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
@@ -97,14 +85,14 @@ export default async function HomePage() {
           {categoryStrips.map(({ cat, posts }) =>
             posts.length === 0 ? null : (
               <section key={cat.id}>
-                <div className="flex items-baseline justify-between border-b-2 border-zinc-200 pb-2 mb-5">
-                  <h2 className="text-xl font-bold text-zinc-900 flex items-center gap-2">
+                <div className="flex items-baseline justify-between border-b-2 border-[var(--border)] pb-2 mb-5">
+                  <h2 className="text-xl font-bold text-[var(--foreground)] flex items-center gap-2">
                     <span>{cat.emoji}</span>
                     <span>{cat.hindi}</span>
                   </h2>
                   <Link
                     href={`/category/${cat.slug}`}
-                    className="text-sm text-red-600 hover:text-red-700 font-medium"
+                    className="text-sm text-[var(--brand)] hover:text-[var(--brand-hover)] font-medium"
                   >
                     और देखें →
                   </Link>
@@ -123,14 +111,6 @@ export default async function HomePage() {
             ),
           )}
         </div>
-
-        {/* Bottom ad */}
-        <AdSlot
-          slot="homepage-bottom"
-          format="horizontal"
-          height={90}
-          className="mt-10"
-        />
       </main>
 
       <Footer />

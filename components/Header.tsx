@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SITE } from "@/lib/types";
 import type { CategoryConfig } from "@/lib/types";
+import ThemeToggle from "./ThemeToggle";
 
 interface HeaderProps {
   categories: CategoryConfig[];
@@ -9,34 +10,35 @@ interface HeaderProps {
 
 export default function Header({ categories, activeSlug }: HeaderProps) {
   return (
-    <header className="border-b border-zinc-200 bg-white sticky top-0 z-40 shadow-sm">
+    <header className="border-b border-[var(--border)] bg-[var(--surface)]/95 backdrop-blur-sm sticky top-0 z-40 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        {/* Top bar — logo + tagline */}
-        <div className="flex items-center justify-between py-3 border-b border-zinc-100">
-          <Link href="/" className="flex flex-col">
-            <span className="text-2xl sm:text-3xl font-black tracking-tight text-red-600 leading-none">
+        {/* Top bar — logo + tagline + search + admin + theme toggle */}
+        <div className="flex items-center justify-between py-3 border-b border-[var(--border)] gap-3">
+          <Link href="/" className="flex flex-col min-w-0">
+            <span className="text-2xl sm:text-3xl font-black tracking-tight text-[var(--brand)] leading-none">
               {SITE.name}
             </span>
-            <span className="text-[11px] text-zinc-500 mt-0.5">
+            <span className="text-[11px] text-[var(--muted)] mt-0.5 truncate">
               {SITE.tagline}
             </span>
           </Link>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             <form action="/search" method="get" className="hidden sm:block">
               <input
                 type="search"
                 name="q"
                 placeholder="खबरें खोजें…"
-                className="w-44 md:w-64 px-3 py-1.5 text-sm border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                className="w-44 md:w-64 px-3 py-1.5 text-sm border border-[var(--border-strong)] rounded-md bg-[var(--background)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)] placeholder:text-[var(--muted)]"
               />
             </form>
             <Link
               href="/wp-admin"
-              className="text-xs text-zinc-500 hover:text-red-600"
+              className="hidden sm:inline text-xs text-[var(--muted)] hover:text-[var(--brand)]"
               title="WordPress admin"
             >
               एडमिन
             </Link>
+            <ThemeToggle />
           </div>
         </div>
 
@@ -46,8 +48,8 @@ export default function Header({ categories, activeSlug }: HeaderProps) {
             href="/"
             className={`px-3 py-1.5 text-sm font-medium rounded-md whitespace-nowrap transition-colors ${
               !activeSlug
-                ? "bg-red-600 text-white"
-                : "text-zinc-700 hover:bg-zinc-100"
+                ? "bg-[var(--brand)] text-[var(--brand-fg)]"
+                : "text-[var(--foreground)] hover:bg-[var(--surface-2)]"
             }`}
           >
             होम
@@ -58,8 +60,8 @@ export default function Header({ categories, activeSlug }: HeaderProps) {
               href={`/category/${c.slug}`}
               className={`px-3 py-1.5 text-sm font-medium rounded-md whitespace-nowrap transition-colors ${
                 activeSlug === c.slug
-                  ? "bg-red-600 text-white"
-                  : "text-zinc-700 hover:bg-zinc-100"
+                  ? "bg-[var(--brand)] text-[var(--brand-fg)]"
+                  : "text-[var(--foreground)] hover:bg-[var(--surface-2)]"
               }`}
             >
               <span className="mr-1">{c.emoji}</span>

@@ -1,10 +1,53 @@
 @import "tailwindcss";
 
+/* ------------------------------------------------------------------ */
+/* Theme tokens — light (default) + dark.                            */
+/* `dark` class is toggled on <html> by the inline script in layout. */
+/* ------------------------------------------------------------------ */
 :root {
   --background: #ffffff;
   --foreground: #0f0f0f;
+  --muted: #71717a;       /* zinc-500 */
+  --muted-fg: #52525b;    /* zinc-600 */
+  --surface: #ffffff;     /* cards, header */
+  --surface-2: #fafafa;   /* alternating */
+  --border: #e4e4e7;      /* zinc-200 */
+  --border-strong: #d4d4d8; /* zinc-300 */
   --brand: #dc2626;       /* red-600 */
   --brand-fg: #ffffff;
+  --brand-hover: #b91c1c; /* red-700 */
+  --link: #dc2626;
+  --link-hover: #991b1b;
+  --amber-bg: #fffbeb;    /* source-attribution box */
+  --amber-border: #fde68a;
+  --amber-fg: #78350f;
+  --code-bg: #f4f4f5;
+  --quote-bg: #fef2f2;
+  --quote-fg: #4b1313;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.dark {
+  --background: #09090b;    /* zinc-950 */
+  --foreground: #fafafa;    /* zinc-50 */
+  --muted: #a1a1aa;         /* zinc-400 */
+  --muted-fg: #d4d4d8;      /* zinc-300 */
+  --surface: #18181b;       /* zinc-900 */
+  --surface-2: #27272a;     /* zinc-800 */
+  --border: #27272a;        /* zinc-800 */
+  --border-strong: #3f3f46; /* zinc-700 */
+  --brand: #ef4444;         /* red-500 — slightly brighter for dark */
+  --brand-fg: #ffffff;
+  --brand-hover: #f87171;   /* red-400 */
+  --link: #f87171;
+  --link-hover: #fca5a5;
+  --amber-bg: #422006;
+  --amber-border: #78350f;
+  --amber-fg: #fde68a;
+  --code-bg: #27272a;
+  --quote-bg: #1f1410;
+  --quote-fg: #fecaca;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 8px rgba(0, 0, 0, 0.25);
 }
 
 @theme inline {
@@ -15,11 +58,19 @@
   --font-sans: var(--font-noto-devanagari), system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
+html {
+  color-scheme: light;
+}
+html.dark {
+  color-scheme: dark;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* Hindi-friendly line height for long Devanagari text. */
@@ -31,7 +82,7 @@ body {
 /* Article content — sensible default styling for WP HTML. */
 .article-content {
   line-height: 1.85;
-  color: #1f1f1f;
+  color: var(--foreground);
 }
 .article-content p {
   margin: 1em 0;
@@ -40,21 +91,21 @@ body {
   font-size: 1.6rem;
   font-weight: 700;
   margin: 1.6em 0 0.6em;
-  color: #0f0f0f;
+  color: var(--foreground);
 }
 .article-content h3 {
   font-size: 1.3rem;
   font-weight: 600;
   margin: 1.4em 0 0.5em;
-  color: #0f0f0f;
+  color: var(--foreground);
 }
 .article-content a {
-  color: #dc2626;
+  color: var(--link);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 .article-content a:hover {
-  color: #991b1b;
+  color: var(--link-hover);
 }
 .article-content img,
 .article-content figure {
@@ -71,15 +122,15 @@ body {
 .article-content ol { list-style: decimal; }
 .article-content li { margin: 0.3em 0; }
 .article-content blockquote {
-  border-left: 4px solid #dc2626;
+  border-left: 4px solid var(--brand);
   padding: 0.5em 1em;
   margin: 1.5em 0;
-  background: #fef2f2;
+  background: var(--quote-bg);
   font-style: italic;
-  color: #4b1313;
+  color: var(--quote-fg);
 }
 .article-content code {
-  background: #f4f4f5;
+  background: var(--code-bg);
   padding: 0.1em 0.3em;
   border-radius: 0.25em;
   font-size: 0.9em;
@@ -88,7 +139,11 @@ body {
 /* Hide horizontal scrollbar on category nav. */
 .scrollbar-thin {
   scrollbar-width: thin;
-  scrollbar-color: #d4d4d8 transparent;
+  scrollbar-color: var(--border-strong) transparent;
 }
 .scrollbar-thin::-webkit-scrollbar { height: 4px; }
-.scrollbar-thin::-webkit-scrollbar-thumb { background: #d4d4d8; border-radius: 2px; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 2px; }
+
+/* Theme toggle button — keeps the symbol swap smooth. */
+.theme-icon { transition: opacity 0.15s ease, transform 0.15s ease; }
+.theme-icon.hidden-icon { opacity: 0; transform: scale(0.7); position: absolute; }

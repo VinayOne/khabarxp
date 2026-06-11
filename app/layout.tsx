@@ -46,6 +46,18 @@ export const metadata: Metadata = {
   },
 };
 
+// Inline script — runs before paint to set theme class, prevents flash of wrong theme.
+// Theme values: "light" | "dark" | "auto". Auto uses prefers-color-scheme.
+const themeScript = `
+(function() {
+  try {
+    var t = localStorage.getItem('khabarxp-theme') || 'auto';
+    var dark = t === 'dark' || (t === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (dark) document.documentElement.classList.add('dark');
+  } catch (e) {}
+})();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -55,8 +67,10 @@ export default function RootLayout({
     <html
       lang="hi"
       className={`${notoDevanagari.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         {/* AdSense — only loads when env var is set (i.e. after approval). */}
         {process.env.NEXT_PUBLIC_ADSENSE_CLIENT && (
           <script
@@ -83,7 +97,7 @@ export default function RootLayout({
           </>
         )}
       </head>
-      <body className="min-h-full flex flex-col bg-white text-zinc-900">
+      <body className="min-h-full flex flex-col bg-[var(--background)] text-[var(--foreground)]">
         {children}
       </body>
     </html>

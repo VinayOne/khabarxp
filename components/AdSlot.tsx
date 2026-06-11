@@ -1,13 +1,16 @@
 /**
  * AdSlot — placeholder for AdSense (and other) ad units.
  *
- * Phase 1: renders a labelled placeholder so the page layout is final.
- * Phase 4: drop in real AdSense <ins class="adsbygoogle" ...> markup once
- *          the AdSense application is approved.
+ * Default: HIDDEN. The homepage looks cleaner without ad placeholders.
  *
- * AdSense is intentionally rendered only when NEXT_PUBLIC_ADSENSE_CLIENT is set
- * — that env var stays empty until the application is approved, so we don't
- * trigger "ad code present but no fill" penalties.
+ * Opt-in via env vars:
+ *   NEXT_PUBLIC_SHOW_AD_PLACEHOLDERS=true  → render labelled dashed boxes (layout preview)
+ *   NEXT_PUBLIC_ADSENSE_CLIENT=ca-pub-...  → render real AdSense unit (post-approval)
+ *
+ * Both env vars OFF (default) → renders nothing (no empty boxes, no penalty).
+ *
+ * `forceHidden` lets individual callers opt out even when env is on
+ * (e.g. "above the fold" pre-roll where a placeholder would hurt LCP).
  */
 
 interface AdSlotProps {
@@ -15,6 +18,7 @@ interface AdSlotProps {
   format?: "auto" | "rectangle" | "horizontal" | "vertical";
   className?: string;
   height?: number;
+  forceHidden?: boolean;
 }
 
 export default function AdSlot({
@@ -22,11 +26,30 @@ export default function AdSlot({
   format = "auto",
   className = "",
   height = 90,
+  forceHidden = false,
 }: AdSlotProps) {
-  const client = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
+  const adsenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
+  const showPlaceholders =
+    process.env.NEXT_PUBLIC_SHOW_AD_PLACEHOLDERS === "true";
 
-  // AdSense not yet approved — show a labelled placeholder so the layout is final.
-  if (!client) {
+  if (forceHidden) return null;
+
+  // Real AdSense — only after application is approved.
+  if (adsenseClient) {
+    return (
+      <ins
+        className={`adsbygoogle ${className}`}
+        style={{ display: "block", minHeight: height }}
+        data-ad-client={adsenseClient}
+        data-ad-slot={slot}
+        data-ad-format={format}
+        data-full-width-responsive="true"
+      />
+    );
+  }
+
+  // Layout-preview placeholder.
+  if (showPlaceholders) {
     return (
       <div
         className={`flex items-center justify-center border border-dashed border-zinc-300 bg-zinc-50 text-zinc-400 text-xs uppercase tracking-wider ${className}`}
@@ -40,15 +63,6 @@ export default function AdSlot({
     );
   }
 
-  // AdSense approved — render the real unit.
-  return (
-    <ins
-      className={`adsbygoogle ${className}`}
-      style={{ display: "block", minHeight: height }}
-      data-ad-client={client}
-      data-ad-slot={slot}
-      data-ad-format={format}
-      data-full-width-responsive="true"
-    />
-  );
+  // Default: nothing renders. Keep the page clean.
+  return null;
 }

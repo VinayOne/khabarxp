@@ -4,14 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import AdSlot from "@/components/AdSlot";
 import Comments from "@/components/Comments";
 import PostCard from "@/components/PostCard";
+import Sidebar from "@/components/Sidebar";
 import {
   estimateReadTime,
   formatHindiDate,
   getAuthorName,
   getFeaturedImageUrl,
+  getLatestPosts,
   getNavCategories,
   getPostBySlug,
   getPostCategories,
@@ -69,24 +70,25 @@ export default async function PostPage({ params }: PageProps) {
   const cats = getPostCategories(post);
   const primaryCat = cats[0];
   const readTime = estimateReadTime(post.content.rendered);
-  const [navCategories, related] = await Promise.all([
+  const [navCategories, related, { data: latest }] = await Promise.all([
     getNavCategories(),
     getRelatedPosts(post.id, post.categories, 4),
+    getLatestPosts(1, 6),
   ]);
 
   return (
     <>
       <Header categories={navCategories} activeSlug={primaryCat?.slug} />
 
-      <main className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-6">
-        <nav className="text-sm text-zinc-500 mb-4">
-          <Link href="/" className="hover:text-red-600">होम</Link>
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6">
+        <nav className="text-sm text-[var(--muted)] mb-4">
+          <Link href="/" className="hover:text-[var(--brand)]">होम</Link>
           {primaryCat && (
             <>
               <span className="mx-2">/</span>
               <Link
                 href={`/category/${primaryCat.slug}`}
-                className="hover:text-red-600"
+                className="hover:text-[var(--brand)]"
               >
                 {primaryCat.name}
               </Link>
@@ -94,80 +96,79 @@ export default async function PostPage({ params }: PageProps) {
           )}
         </nav>
 
-        <article>
-          <header className="mb-6">
-            {primaryCat && (
-              <Link
-                href={`/category/${primaryCat.slug}`}
-                className="text-xs font-bold uppercase tracking-wider text-red-600 hover:text-red-700"
-              >
-                {primaryCat.name}
-              </Link>
-            )}
-            <h1
-              className="text-3xl sm:text-4xl font-black text-zinc-900 mt-2 leading-tight"
-              dangerouslySetInnerHTML={{ __html: post.title.rendered }}
-            />
-            <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-zinc-600">
-              <span>👤 {getAuthorName(post)}</span>
-              <span>•</span>
-              <time dateTime={post.date}>{formatHindiDate(post.date)}</time>
-              <span>•</span>
-              <span>⏱️ {readTime} मिनट पढ़ने का समय</span>
-            </div>
-          </header>
-
-          {img && (
-            <div className="relative aspect-[16/9] mb-6 overflow-hidden rounded-lg bg-zinc-100">
-              <Image
-                src={img}
-                alt={post.title.rendered.replace(/<[^>]+>/g, "")}
-                fill
-                priority
-                sizes="(max-width: 768px) 100vw, 768px"
-                className="object-cover"
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+          {/* Article column */}
+          <article className="lg:col-span-2">
+            <header className="mb-6">
+              {primaryCat && (
+                <Link
+                  href={`/category/${primaryCat.slug}`}
+                  className="text-xs font-bold uppercase tracking-wider text-[var(--brand)] hover:text-[var(--brand-hover)]"
+                >
+                  {primaryCat.name}
+                </Link>
+              )}
+              <h1
+                className="text-3xl sm:text-4xl font-black text-[var(--foreground)] mt-2 leading-tight"
+                dangerouslySetInnerHTML={{ __html: post.title.rendered }}
               />
+              <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-[var(--muted-fg)]">
+                <span>👤 {getAuthorName(post)}</span>
+                <span>•</span>
+                <time dateTime={post.date}>{formatHindiDate(post.date)}</time>
+                <span>•</span>
+                <span>⏱️ {readTime} मिनट पढ़ने का समय</span>
+              </div>
+            </header>
+
+            {img && (
+              <div className="relative aspect-[16/9] mb-6 overflow-hidden rounded-lg bg-[var(--surface-2)]">
+                <Image
+                  src={img}
+                  alt={post.title.rendered.replace(/<[^>]+>/g, "")}
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 100vw, 768px"
+                  className="object-cover"
+                />
+              </div>
+            )}
+
+            <div
+              className="article-content text-lg prose-hindi"
+              dangerouslySetInnerHTML={{ __html: post.content.rendered }}
+            />
+
+            {/* Source attribution — important for aggregated news sites. */}
+            <div className="mt-8 p-4 bg-[var(--amber-bg)] border border-[var(--amber-border)] rounded-lg text-sm text-[var(--amber-fg)]">
+              <p>
+                <strong>📰 स्रोत:</strong> यह खबर स्वचालित RSS फीड से एकत्र की गई है।
+                किसी भी सुधार या शिकायत के लिए कृपया{" "}
+                <Link href="/contact" className="underline">
+                  संपर्क करें
+                </Link>
+                ।
+              </p>
             </div>
-          )}
 
-          <AdSlot
-            slot="post-top"
-            format="horizontal"
-            height={90}
-            className="my-6"
-          />
+            <Comments postId={post.id} apiBase={WP_API_BASE} />
+          </article>
 
-          <div
-            className="article-content text-lg prose-hindi"
-            dangerouslySetInnerHTML={{ __html: post.content.rendered }}
-          />
-
-          <AdSlot
-            slot="post-mid"
-            format="rectangle"
-            height={250}
-            className="my-8"
-          />
-
-          {/* Source attribution — important for aggregated news sites. */}
-          <div className="mt-8 p-4 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-900">
-            <p>
-              <strong>📰 स्रोत:</strong> यह खबर स्वचालित RSS फीड से एकत्र की गई है।
-              किसी भी सुधार या शिकायत के लिए कृपया{" "}
-              <Link href="/contact" className="underline">
-                संपर्क करें
-              </Link>
-              ।
-            </p>
+          {/* Sidebar — visible from lg up */}
+          <div className="lg:col-span-1">
+            <Sidebar
+              latestPosts={latest}
+              relatedPosts={related}
+              showRelated
+            />
           </div>
+        </div>
 
-          <Comments postId={post.id} apiBase={WP_API_BASE} />
-        </article>
-
+        {/* Bottom — wider related strip across the full width */}
         {related.length > 0 && (
           <section className="mt-12">
-            <h2 className="text-2xl font-bold text-zinc-900 border-l-4 border-red-600 pl-3 mb-5">
-              संबंधित खबरें
+            <h2 className="text-2xl font-bold text-[var(--foreground)] border-l-4 border-[var(--brand)] pl-3 mb-5">
+              और पढ़ें
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
               {related.map((p) => (
