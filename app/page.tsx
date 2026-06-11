@@ -39,6 +39,10 @@ export default async function HomePage() {
       <Header categories={navCategories} />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6">
+        {/* SEO: visually-hidden H1 (search engines see it, users don't). */}
+        <h1 className="sr-only">
+          {SITE.name} — ताज़ा खबरें, ब्रेकिंग न्यूज़ हिंदी में
+        </h1>
         {/* Top banner ad slot */}
         <AdSlot
           slot="homepage-top-banner"
