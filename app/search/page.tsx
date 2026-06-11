@@ -35,11 +35,11 @@ export default async function SearchPage({ searchParams }: PageProps) {
       <Header categories={navCategories} />
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6">
         <header className="mb-6">
-          <h1 className="text-2xl sm:text-3xl font-black text-zinc-900">
+          <h1 className="text-2xl sm:text-3xl font-black text-[var(--foreground)]">
             {query ? `“${query}” के लिए परिणाम` : "खबरें खोजें"}
           </h1>
           {query && (
-            <p className="text-sm text-zinc-500 mt-1">
+            <p className="text-sm text-[var(--muted)] mt-1">
               {results.total.toLocaleString("en-IN")} परिणाम मिले
             </p>
           )}
@@ -49,13 +49,13 @@ export default async function SearchPage({ searchParams }: PageProps) {
               name="q"
               defaultValue={query}
               placeholder="खबरें खोजें…"
-              className="w-full px-4 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+              className="w-full px-4 py-2 border border-[var(--border-strong)] rounded-md bg-[var(--surface)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)] placeholder:text-[var(--muted)]"
             />
           </form>
         </header>
 
         {query && results.data.length === 0 ? (
-          <p className="text-zinc-500 py-12 text-center">
+          <p className="text-[var(--muted)] py-12 text-center">
             कोई परिणाम नहीं मिला। दूसरे शब्द आज़माएँ।
           </p>
         ) : (
@@ -71,18 +71,21 @@ export default async function SearchPage({ searchParams }: PageProps) {
             {page > 1 && (
               <Link
                 href={`/search?q=${encodeURIComponent(query)}&page=${page - 1}`}
-                className="px-4 py-2 text-sm border border-zinc-300 rounded-md hover:bg-zinc-50"
+                className="px-4 py-2 text-sm border border-[var(--border-strong)] rounded-md hover:bg-[var(--surface-2)] text-[var(--foreground)]"
               >
                 ← पिछला
               </Link>
             )}
-            <span className="text-sm text-zinc-600 px-3">
+            <span className="text-sm text-[var(--muted-fg)] px-3">
               पृष्ठ {page} / {results.totalPages}
             </span>
+            {page > 1 && page < results.totalPages && (
+              <span className="text-[var(--muted)]">|</span>
+            )}
             {page < results.totalPages && (
               <Link
                 href={`/search?q=${encodeURIComponent(query)}&page=${page + 1}`}
-                className="px-4 py-2 text-sm border border-zinc-300 rounded-md hover:bg-zinc-50"
+                className="px-4 py-2 text-sm border border-[var(--border-strong)] rounded-md hover:bg-[var(--surface-2)] text-[var(--foreground)]"
               >
                 अगला →
               </Link>

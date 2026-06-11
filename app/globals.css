@@ -5,20 +5,20 @@
 /* `dark` class is toggled on <html> by the inline script in layout. */
 /* ------------------------------------------------------------------ */
 :root {
-  --background: #ffffff;
-  --foreground: #0f0f0f;
-  --muted: #71717a;       /* zinc-500 */
-  --muted-fg: #52525b;    /* zinc-600 */
-  --surface: #ffffff;     /* cards, header */
-  --surface-2: #fafafa;   /* alternating */
-  --border: #e4e4e7;      /* zinc-200 */
-  --border-strong: #d4d4d8; /* zinc-300 */
-  --brand: #dc2626;       /* red-600 */
+  --background: #f4f4f5;   /* zinc-100 — softened from pure white so cards visibly stand out */
+  --foreground: #0a0a0a;   /* near-black */
+  --muted: #71717a;        /* zinc-500 — secondary text (dates, meta) */
+  --muted-fg: #3f3f46;     /* zinc-700 — body/description text */
+  --surface: #ffffff;      /* cards, header (clearly lighter than page bg) */
+  --surface-2: #f9fafb;    /* zinc-50 — alternating / hover */
+  --border: #d4d4d8;       /* zinc-300 — visible card outlines */
+  --border-strong: #a1a1aa;/* zinc-400 — search/input borders */
+  --brand: #dc2626;        /* red-600 */
   --brand-fg: #ffffff;
-  --brand-hover: #b91c1c; /* red-700 */
+  --brand-hover: #b91c1c;  /* red-700 */
   --link: #dc2626;
   --link-hover: #991b1b;
-  --amber-bg: #fffbeb;    /* source-attribution box */
+  --amber-bg: #fffbeb;     /* source-attribution box */
   --amber-border: #fde68a;
   --amber-fg: #78350f;
   --code-bg: #f4f4f5;
@@ -28,14 +28,19 @@
 }
 
 .dark {
-  --background: #09090b;    /* zinc-950 */
+  /* Page background: lifted from near-black to a charcoal that's easier on the eyes
+     and gives more room for cards to "elevate" above it. */
+  --background: #18181b;    /* zinc-900 — was #09090b (zinc-950) */
   --foreground: #fafafa;    /* zinc-50 */
-  --muted: #a1a1aa;         /* zinc-400 */
-  --muted-fg: #d4d4d8;      /* zinc-300 */
-  --surface: #18181b;       /* zinc-900 */
-  --surface-2: #27272a;     /* zinc-800 */
-  --border: #27272a;        /* zinc-800 */
-  --border-strong: #3f3f46; /* zinc-700 */
+  /* Text contrast: muted/secondary text lifted so dates, excerpts, meta are readable
+     without losing the visual hierarchy against the primary foreground. */
+  --muted: #c7c7cc;         /* lifted from zinc-400 (#a1a1aa) → ~#c7c7cc */
+  --muted-fg: #e4e4e7;      /* lifted from zinc-300 (#d4d4d8) → zinc-200 */
+  /* Surfaces: cards/sidebar one full step lighter than page so they "rise" visibly. */
+  --surface: #27272a;       /* zinc-800 — was #18181b (zinc-900) */
+  --surface-2: #3f3f46;     /* zinc-700 — hover / alternating state */
+  --border: #3f3f46;        /* zinc-700 — visible card outlines */
+  --border-strong: #52525b; /* zinc-600 — search input / inputs */
   --brand: #ef4444;         /* red-500 — slightly brighter for dark */
   --brand-fg: #ffffff;
   --brand-hover: #f87171;   /* red-400 */
@@ -44,10 +49,10 @@
   --amber-bg: #422006;
   --amber-border: #78350f;
   --amber-fg: #fde68a;
-  --code-bg: #27272a;
-  --quote-bg: #1f1410;
+  --code-bg: #3f3f46;
+  --quote-bg: #2a1a14;
   --quote-fg: #fecaca;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 8px rgba(0, 0, 0, 0.25);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.35);
 }
 
 @theme inline {

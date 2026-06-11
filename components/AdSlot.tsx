@@ -52,7 +52,7 @@ export default function AdSlot({
   if (showPlaceholders) {
     return (
       <div
-        className={`flex items-center justify-center border border-dashed border-zinc-300 bg-zinc-50 text-zinc-400 text-xs uppercase tracking-wider ${className}`}
+        className={`flex items-center justify-center border border-dashed border-[var(--border-strong)] bg-[var(--surface-2)] text-[var(--muted)] text-xs uppercase tracking-wider ${className}`}
         style={{ minHeight: height }}
         data-ad-slot={slot}
         role="complementary"

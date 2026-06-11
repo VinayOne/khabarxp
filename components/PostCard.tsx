@@ -34,7 +34,10 @@ export default function PostCard({
 
   return (
     <article className="group flex flex-col h-full">
-      <Link href={href} className="block overflow-hidden rounded-lg bg-zinc-100">
+      <Link
+        href={href}
+        className="block overflow-hidden rounded-lg bg-[var(--surface-2)]"
+      >
         {imgUrl ? (
           <div className={`relative ${cfg.aspect} overflow-hidden`}>
             <Image
@@ -47,7 +50,7 @@ export default function PostCard({
             />
           </div>
         ) : (
-          <div className={`${cfg.aspect} bg-gradient-to-br from-red-100 to-orange-100 flex items-center justify-center`}>
+          <div className={`${cfg.aspect} bg-gradient-to-br from-red-100 to-orange-100 dark:from-red-950/40 dark:to-orange-950/40 flex items-center justify-center`}>
             <span className="text-3xl opacity-30">📰</span>
           </div>
         )}
@@ -57,13 +60,15 @@ export default function PostCard({
         {showCategory && category && (
           <Link
             href={`/category/${category.slug}`}
-            className="text-[11px] font-semibold uppercase tracking-wider text-red-600 hover:text-red-700 mb-1"
+            className="text-[11px] font-semibold uppercase tracking-wider text-[var(--brand)] hover:text-[var(--brand-hover)] mb-1"
           >
             {category.name}
           </Link>
         )}
 
-        <h2 className={`${cfg.title} text-zinc-900 group-hover:text-red-600 transition-colors`}>
+        <h2
+          className={`${cfg.title} text-[var(--foreground)] group-hover:text-[var(--brand)] transition-colors`}
+        >
           <Link
             href={href}
             className="line-clamp-3"
@@ -73,12 +78,12 @@ export default function PostCard({
 
         {showExcerpt && post.excerpt?.rendered && (
           <div
-            className="mt-2 text-sm text-zinc-600 line-clamp-2"
+            className="mt-2 text-sm text-[var(--muted-fg)] line-clamp-2"
             dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
           />
         )}
 
-        <div className="mt-auto pt-2 text-xs text-zinc-500">
+        <div className="mt-auto pt-2 text-xs text-[var(--muted)]">
           <time dateTime={post.date}>{formatHindiDate(post.date)}</time>
         </div>
       </div>
