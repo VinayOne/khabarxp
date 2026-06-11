@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #0f0f0f;
+  --brand: #dc2626;       /* red-600 */
+  --brand-fg: #ffffff;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-brand: var(--brand);
+  --color-brand-fg: var(--brand-fg);
+  --font-sans: var(--font-noto-devanagari), system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Hindi-friendly line height for long Devanagari text. */
+.prose-hindi p,
+.prose-hindi li {
+  line-height: 1.85;
+}
+
+/* Article content — sensible default styling for WP HTML. */
+.article-content {
+  line-height: 1.85;
+  color: #1f1f1f;
+}
+.article-content p {
+  margin: 1em 0;
+}
+.article-content h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 1.6em 0 0.6em;
+  color: #0f0f0f;
+}
+.article-content h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 1.4em 0 0.5em;
+  color: #0f0f0f;
+}
+.article-content a {
+  color: #dc2626;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.article-content a:hover {
+  color: #991b1b;
+}
+.article-content img,
+.article-content figure {
+  max-width: 100%;
+  height: auto;
+  margin: 1.5em auto;
+  border-radius: 0.5rem;
+}
+.article-content ul,
+.article-content ol {
+  margin: 1em 0 1em 1.5em;
+}
+.article-content ul { list-style: disc; }
+.article-content ol { list-style: decimal; }
+.article-content li { margin: 0.3em 0; }
+.article-content blockquote {
+  border-left: 4px solid #dc2626;
+  padding: 0.5em 1em;
+  margin: 1.5em 0;
+  background: #fef2f2;
+  font-style: italic;
+  color: #4b1313;
+}
+.article-content code {
+  background: #f4f4f5;
+  padding: 0.1em 0.3em;
+  border-radius: 0.25em;
+  font-size: 0.9em;
+}
+
+/* Hide horizontal scrollbar on category nav. */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #d4d4d8 transparent;
+}
+.scrollbar-thin::-webkit-scrollbar { height: 4px; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: #d4d4d8; border-radius: 2px; }
