@@ -39,15 +39,19 @@ export async function generateMetadata({
     ?.replace(/<[^>]+>/g, "")
     .trim()
     .slice(0, 160);
+  // Construct the frontend URL directly. Do NOT use `post.link` (WP returns
+  // it from the WP siteurl, which is now `https://wp.khabarxp.in` —
+  // the backend, not the frontend).
+  const postUrl = `${SITE.url}/post/${post.slug}`;
   return {
     title: post.title.rendered.replace(/<[^>]+>/g, ""),
     description: desc,
-    alternates: { canonical: post.link || `${SITE.url}/post/${post.slug}` },
+    alternates: { canonical: postUrl },
     openGraph: {
       type: "article",
       title: post.title.rendered.replace(/<[^>]+>/g, ""),
       description: desc,
-      url: post.link,
+      url: postUrl,
       images: img ? [{ url: img }] : undefined,
       publishedTime: post.date_gmt,
       modifiedTime: post.modified_gmt,
