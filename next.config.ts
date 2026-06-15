@@ -1,10 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Allow images from the WordPress backend (khabarxp.in) and common CDNs.
+  // Allow images from the WordPress backend (both old and new hostnames)
+  // and common CDNs.
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "khabarxp.in" },
+      { protocol: "https", hostname: "wp.khabarxp.in" },
       { protocol: "https", hostname: "i0.wp.com" },
       { protocol: "https", hostname: "i1.wp.com" },
       { protocol: "https", hostname: "i2.wp.com" },

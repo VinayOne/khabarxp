@@ -32,7 +32,7 @@ export default function Header({ categories, activeSlug }: HeaderProps) {
               />
             </form>
             <Link
-              href="/wp-admin"
+              href="/admin"
               className="hidden sm:inline text-xs text-[var(--muted)] hover:text-[var(--brand)]"
               title="WordPress admin"
             >
