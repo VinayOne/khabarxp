@@ -1,7 +1,14 @@
 import { getLatestPosts } from "@/lib/wp";
 import { SITE } from "@/lib/types";
 
-export const revalidate = 300; // 5 min
+// Render at request time, not at build time.
+// Reason: at build time the WP API hostname may not be reachable
+// (or may present a self-signed cert via the host's /etc/hosts override
+// that Coolify injects into build containers). Request-time fetch
+// avoids both issues. The Cache-Control header below gives the
+// same 5-min freshness as the previous ISR revalidate=300.
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 function escapeXml(s: string): string {
   return s
@@ -53,7 +60,7 @@ export async function GET() {
   return new Response(xml, {
     headers: {
       "Content-Type": "application/xml; charset=utf-8",
-      "Cache-Control": "public, max-age=300, s-maxage=300",
+      "Cache-Control": "public, max-age=300, s-maxage=300, stale-while-revalidate=60",
     },
   });
 }
