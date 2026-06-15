@@ -2,6 +2,7 @@ import Link from "next/link";
 import { SITE } from "@/lib/types";
 import type { CategoryConfig } from "@/lib/types";
 import ThemeToggle from "./ThemeToggle";
+import CurrentDate from "./CurrentDate";
 
 interface HeaderProps {
   categories: CategoryConfig[];
@@ -12,7 +13,7 @@ export default function Header({ categories, activeSlug }: HeaderProps) {
   return (
     <header className="border-b border-[var(--border)] bg-[var(--surface)]/95 backdrop-blur-sm sticky top-0 z-40 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        {/* Top bar — logo + tagline + search + admin + theme toggle */}
+        {/* Top bar — logo + tagline + search + date + theme toggle */}
         <div className="flex items-center justify-between py-3 border-b border-[var(--border)] gap-3">
           <Link href="/" className="flex flex-col min-w-0">
             <span className="text-2xl sm:text-3xl font-black tracking-tight text-[var(--brand)] leading-none">
@@ -23,6 +24,7 @@ export default function Header({ categories, activeSlug }: HeaderProps) {
             </span>
           </Link>
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            <CurrentDate />
             <form action="/search" method="get" className="hidden sm:block">
               <input
                 type="search"
@@ -31,13 +33,6 @@ export default function Header({ categories, activeSlug }: HeaderProps) {
                 className="w-44 md:w-64 px-3 py-1.5 text-sm border border-[var(--border-strong)] rounded-md bg-[var(--background)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)] placeholder:text-[var(--muted)]"
               />
             </form>
-            <Link
-              href="/admin"
-              className="hidden sm:inline text-xs text-[var(--muted)] hover:text-[var(--brand)]"
-              title="WordPress admin"
-            >
-              एडमिन
-            </Link>
             <ThemeToggle />
           </div>
         </div>
