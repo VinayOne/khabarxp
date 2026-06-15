@@ -21,8 +21,8 @@ export default function Header({ categories, activeSlug }: HeaderProps) {
             className="flex flex-col min-w-0 text-[var(--foreground)]"
             aria-label={`${SITE.nameEn} — ${SITE.tagline}`}
           >
-            <Logo className="text-[var(--foreground)]" height="h-9 sm:h-10" />
-            <span className="text-[11px] text-[var(--muted)] mt-0.5 truncate">
+            <Logo className="text-[var(--foreground)]" height="h-12 sm:h-14" />
+            <span className="text-xs sm:text-sm text-[var(--muted)] mt-1 truncate">
               {SITE.tagline}
             </span>
           </Link>
