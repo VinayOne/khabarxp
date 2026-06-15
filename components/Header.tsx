@@ -3,6 +3,7 @@ import { SITE } from "@/lib/types";
 import type { CategoryConfig } from "@/lib/types";
 import ThemeToggle from "./ThemeToggle";
 import CurrentDate from "./CurrentDate";
+import Logo from "./Logo";
 
 interface HeaderProps {
   categories: CategoryConfig[];
@@ -15,10 +16,12 @@ export default function Header({ categories, activeSlug }: HeaderProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Top bar — logo + tagline + search + date + theme toggle */}
         <div className="flex items-center justify-between py-3 border-b border-[var(--border)] gap-3">
-          <Link href="/" className="flex flex-col min-w-0">
-            <span className="text-2xl sm:text-3xl font-black tracking-tight text-[var(--brand)] leading-none">
-              {SITE.name}
-            </span>
+          <Link
+            href="/"
+            className="flex flex-col min-w-0 text-[var(--foreground)]"
+            aria-label={`${SITE.nameEn} — ${SITE.tagline}`}
+          >
+            <Logo className="text-[var(--foreground)]" height="h-9 sm:h-10" />
             <span className="text-[11px] text-[var(--muted)] mt-0.5 truncate">
               {SITE.tagline}
             </span>
