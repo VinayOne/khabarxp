@@ -21,11 +21,13 @@ export default function Logo({ className = "", height = "h-16 sm:h-20", decorati
   return (
     <svg
       /* Tight viewBox around actual content — no padding wasted.
-         Aspect ratio 580:280 = 2.07:1 */
-      viewBox="0 0 580 280"
+         Aspect ratio 640:300 = 2.13:1 — wide enough for "Khabar" to fit
+         without clipping at fontSize 120. */
+      viewBox="0 0 640 300"
       role={decorative ? "presentation" : "img"}
       aria-label={decorative ? undefined : "Khabar Xpress"}
-      className={`${height} w-auto ${className}`}
+      className={`${height} w-auto shrink-0 ${className}`}
+      style={{ overflow: "visible" }}
       xmlns="http://www.w3.org/2000/svg"
     >
       <title>Khabar Xpress</title>
@@ -34,7 +36,7 @@ export default function Logo({ className = "", height = "h-16 sm:h-20", decorati
         {/* Back page (lower opacity for depth) */}
         <rect
           x="62"
-          y="50"
+          y="60"
           width="100"
           height="200"
           rx="10"
@@ -88,17 +90,17 @@ export default function Logo({ className = "", height = "h-16 sm:h-20", decorati
       {/* Wordmark */}
       <g fontFamily="Noto Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
         <text
-          x="160"
-          y="170"
-          fontSize="130"
+          x="190"
+          y="190"
+          fontSize="120"
           fontWeight="900"
           fill="currentColor"
-          letterSpacing="-3"
+          letterSpacing="-2"
         >
           Khabar
         </text>
-        <g fontSize="46" fontWeight="900" fill="#dc2626" letterSpacing="8">
-          <text x="162" y="222">XPRESS</text>
+        <g fontSize="48" fontWeight="900" fill="#dc2626" letterSpacing="10">
+          <text x="192" y="245">XPRESS</text>
         </g>
       </g>
     </svg>
