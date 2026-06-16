@@ -3,7 +3,7 @@
  * the parent element, making the wordmark and newspaper outline
  * automatically adapt to light/dark themes.
  *
- * The globe stays brand red always.
+ * The globe + XPRESS tag stay brand red always.
  *
  * Used in:
  *  - Header (replaces the old "खबर एक्सपी" text block)
@@ -17,12 +17,12 @@ export interface LogoProps {
   decorative?: boolean;
 }
 
-export default function Logo({ className = "", height = "h-12 sm:h-14", decorative = false }: LogoProps) {
+export default function Logo({ className = "", height = "h-20 sm:h-24", decorative = false }: LogoProps) {
   return (
     <svg
       /* Tight viewBox around actual content — no padding wasted.
-         Aspect ratio 620:280 = 2.21:1 */
-      viewBox="0 0 620 280"
+         Aspect ratio 620:300 = 2.07:1 */
+      viewBox="0 0 620 300"
       role={decorative ? "presentation" : "img"}
       aria-label={decorative ? undefined : "Khabar Xpress"}
       className={`${height} w-auto ${className}`}
@@ -34,71 +34,71 @@ export default function Logo({ className = "", height = "h-12 sm:h-14", decorati
         {/* Back page (lower opacity for depth) */}
         <rect
           x="62"
-          y="60"
-          width="100"
-          height="200"
-          rx="10"
-          ry="10"
+          y="50"
+          width="110"
+          height="220"
+          rx="12"
+          ry="12"
           fill="none"
           stroke="currentColor"
-          strokeWidth="4"
+          strokeWidth="5"
           opacity="0.4"
         />
         {/* Front page */}
         <rect
           x="20"
-          y="20"
-          width="100"
-          height="200"
-          rx="10"
-          ry="10"
+          y="10"
+          width="110"
+          height="220"
+          rx="12"
+          ry="12"
           fill="none"
           stroke="currentColor"
-          strokeWidth="5"
+          strokeWidth="6"
         />
         {/* Headline lines */}
         <line
           x1="35"
-          y1="60"
-          x2="105"
-          y2="60"
+          y1="55"
+          x2="115"
+          y2="55"
           stroke="currentColor"
-          strokeWidth="5"
+          strokeWidth="6"
           strokeLinecap="round"
         />
         <line
           x1="35"
           y1="78"
-          x2="80"
+          x2="90"
           y2="78"
           stroke="currentColor"
-          strokeWidth="3"
+          strokeWidth="4"
           strokeLinecap="round"
           opacity="0.55"
         />
         {/* Globe on front page (always red — brand color) */}
-        <g transform="translate(70, 140)">
-          <circle r="30" fill="#dc2626" />
-          <ellipse rx="30" ry="11" fill="none" stroke="#ffffff" strokeWidth="2" />
-          <ellipse rx="11" ry="30" fill="none" stroke="#ffffff" strokeWidth="2" />
-          <line x1="-30" y1="0" x2="30" y2="0" stroke="#ffffff" strokeWidth="2" />
+        <g transform="translate(75, 155)">
+          <circle r="35" fill="#dc2626" />
+          <ellipse rx="35" ry="13" fill="none" stroke="#ffffff" strokeWidth="2.5" />
+          <ellipse rx="13" ry="35" fill="none" stroke="#ffffff" strokeWidth="2.5" />
+          <line x1="-35" y1="0" x2="35" y2="0" stroke="#ffffff" strokeWidth="2.5" />
         </g>
       </g>
 
       {/* Wordmark */}
       <g fontFamily="Noto Sans, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
         <text
-          x="190"
-          y="190"
-          fontSize="120"
+          x="200"
+          y="180"
+          fontSize="150"
           fontWeight="900"
           fill="currentColor"
-          letterSpacing="-2"
+          letterSpacing="-3"
         >
           Khabar
         </text>
-        <g fontSize="32" fontWeight="700" fill="#dc2626" letterSpacing="14">
-          <text x="190" y="235">XPRESS</text>
+        <g fontSize="56" fontWeight="900" fill="#dc2626" letterSpacing="10">
+          <text x="202" y="240">XPRESS</text>
         </g>
       </g>
     </svg>
